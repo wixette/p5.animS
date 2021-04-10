@@ -162,7 +162,7 @@ export class AnimShapes {
      */
     circle(id, duration, x, y, d) {
         d = Math.abs(d);
-        this.ellipse(id, x, y, d, d, duration);
+        this.ellipse(id, duration, x, y, d, d);
     }
 
     /**
@@ -218,7 +218,7 @@ export class AnimShapes {
     rect(id, duration, x, y, w, h) {
         w = Math.abs(w);
         h = Math.abs(h);
-        this.quad(id, x, y, x + w, y, x + w, y + h, x, y + h, duration);
+        this.quad(id, duration, x, y, x + w, y, x + w, y + h, x, y + h);
     }
 
     /**
@@ -232,7 +232,7 @@ export class AnimShapes {
      */
     square(id, duration, x, y, s) {
         s = Math.abs(s);
-        this.rect(id, x, y, s, s, duration);
+        this.rect(id, duration, x, y, s, s);
     }
 
     /**
