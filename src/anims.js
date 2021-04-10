@@ -10,8 +10,8 @@ export class AnimShapes {
     /**
      * @param {Object} p5obj The instance of the p5 object.
      */
-    constructor(p5obj = window) {
-        this.p5obj = p5obj;
+    constructor(p5obj) {
+        this.p5obj = p5obj || window;
         /**
          * @type {Map<string, Shape>}
          * @private

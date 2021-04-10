@@ -199,7 +199,7 @@
          * Draws the shape instance on the current frame.
          */
         update() {
-            let progress = (frameCount - this.startFrame) / this.duration;
+            let progress = (this.p5obj.frameCount - this.startFrame) / this.duration;
             if (progress < 0) progress = 0;
             if (progress > 1) progress = 1;
             const numCurves = this.vertices.length - 1;
@@ -237,7 +237,7 @@
                 this.vertices[this.vertices.length - 1] instanceof Vertex &&
                 this.vertices[0].x == this.vertices[this.vertices.length - 1].x &&
                 this.vertices[0].y == this.vertices[this.vertices.length - 1].y) {
-                this.p5obj.endShape(CLOSE);
+                this.p5obj.endShape(this.p5obj.CLOSE);
             } else {
                 this.p5obj.endShape();
             }
@@ -253,8 +253,8 @@
         /**
          * @param {Object} p5obj The instance of the p5 object.
          */
-        constructor(p5obj = window) {
-            this.p5obj = p5obj;
+        constructor(p5obj) {
+            this.p5obj = p5obj || window;
             /**
              * @type {Map<string, Shape>}
              * @private
@@ -300,7 +300,7 @@
          * @private
          */
         checkDuplicateId_(id) {
-            let key = id + '@' + frameCount;
+            let key = id + '@' + this.p5obj.frameCount;
             if (this.dedup_.has(key)) {
                 return true;
             } else {
