@@ -28,7 +28,7 @@ export class Shape {
      * Draws the shape instance on the current frame.
      */
     update() {
-        let progress = (frameCount - this.startFrame) / this.duration;
+        let progress = (this.p5obj.frameCount - this.startFrame) / this.duration;
         if (progress < 0) progress = 0;
         if (progress > 1) progress = 1;
         const numCurves = this.vertices.length - 1;

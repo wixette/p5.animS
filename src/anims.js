@@ -57,7 +57,7 @@ export class AnimShapes {
      * @private
      */
     checkDuplicateId_(id) {
-        let key = id + '@' + frameCount;
+        let key = id + '@' + this.p5obj.frameCount;
         if (this.dedup_.has(key)) {
             return true;
         } else {
