@@ -4,6 +4,7 @@
  */
 
 import { Shape } from './shape.js';
+import { arcToBezier, Vertex, BezierVertex } from './utils.js';
 
 export class AnimShapes {
     /**
@@ -27,7 +28,7 @@ export class AnimShapes {
      *     number of frames, for creating the new instance.
      * @private
      */
-    getOrCreateShapeInstance(id, getShapeVertices, duration) {
+    getOrCreateShapeInstance_(id, getShapeVertices, duration) {
         if (this.instances.has(id)) {
             return this.instances.get(id);
         }
@@ -72,7 +73,7 @@ export class AnimShapes {
             const curves = [];
             while (stop - start >= epsilon) {
                 arcToDraw = Math.min(stop - start, Math.PI / 2);
-                curves.push(Shape.arcToBezier(start, arcToDraw));
+                curves.push(arcToBezier(start, arcToDraw));
                 start += arcToDraw;
             }
             const shapeVertices = [];
@@ -87,7 +88,7 @@ export class AnimShapes {
             return shapeVertices;
         };
 
-        const instance = this.getOrCreateShapeInstance(id, createShapeVertices, duration);
+        const instance = this.getOrCreateShapeInstance_(id, createShapeVertices, duration);
         instance.update();
     }
 
@@ -103,7 +104,7 @@ export class AnimShapes {
      * @param {!number} h The height of the ellipse.
      */
     ellipse(id, duration, x, y, w, h) {
-        const instance = this.getOrCreateShapeInstance(id, () => {
+        const instance = this.getOrCreateShapeInstance_(id, () => {
             x = x - w * 0.5;
             y = y - h * 0.5;
             w = Math.abs(w);
@@ -148,7 +149,7 @@ export class AnimShapes {
      * @param {!number} y2 The y-coordinate of the second point.
      */
     line(id, duration, x1, y1, x2, y2) {
-        const instance = this.getOrCreateShapeInstance(id, () => {
+        const instance = this.getOrCreateShapeInstance_(id, () => {
             return [new Vertex(x1, y1), new Vertex(x2, y2)];
         }, duration);
         instance.update();
@@ -169,7 +170,7 @@ export class AnimShapes {
      * @param {!number} y4 The y-coordinate of the fourth point.
      */
     quad(id, duration, x1, y1, x2, y2, x3, y3, x4, y4) {
-        const instance = this.getOrCreateShapeInstance(id, () => {
+        const instance = this.getOrCreateShapeInstance_(id, () => {
             return [new Vertex(x1, y1), new Vertex(x2, y2),
             new Vertex(x3, y3), new Vertex(x4, y4),
             new Vertex(x1, y1)];
@@ -220,7 +221,7 @@ export class AnimShapes {
      * @param {!number} y3 The y-coordinate of the third point.
      */
     triangle(id, duration, x1, y1, x2, y2, x3, y3) {
-        const instance = this.getOrCreateShapeInstance(id, () => {
+        const instance = this.getOrCreateShapeInstance_(id, () => {
             return [new Vertex(x1, y1), new Vertex(x2, y2),
             new Vertex(x3, y3), new Vertex(x1, y1)];
         }, duration);
@@ -239,7 +240,7 @@ export class AnimShapes {
      *     vertices).
      */
     shape(id, duration, vertices) {
-        const instance = this.getOrCreateShapeInstance(id, () => {
+        const instance = this.getOrCreateShapeInstance_(id, () => {
             const shapeVertices = [];
             for (const v of vertices) {
                 if (v.length == 2) {

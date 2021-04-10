@@ -11,7 +11,7 @@
     /**
      * A simple vertex. Similar to the vertex() function of p5.js.
      */
-    class Vertex$1 {
+    class Vertex {
         /**
          * @param {!number} x x-coordinate.
          * @param {!number} y y-coordinate.
@@ -19,6 +19,29 @@
         constructor(x, y) {
             this.x = x;
             this.y = y;
+        }
+    }
+
+    /**
+     * A vertex to define a cubic Bezier curve. Similar to the bezierVertex()
+     *     function of p5.js.
+     */
+    class BezierVertex {
+        /**
+         * @param {!number} x2 x-coordinate for the first control point.
+         * @param {!number} y2 y-coordinate for the first control point.
+         * @param {!number} x3 x-coordinate for the second control point.
+         * @param {!number} y3 y-coordinate for the second control point.
+         * @param {!number} x4 x-coordinate for the anchor point.
+         * @param {!number} y4 y-coordinate for the anchor point.
+         */
+        constructor(x2, y2, x3, y3, x4, y4) {
+            this.x2 = x2;
+            this.y2 = y2;
+            this.x3 = x3;
+            this.y3 = y3;
+            this.x4 = x4;
+            this.y4 = y4;
         }
     }
 
@@ -74,10 +97,10 @@
      * @returns {Vertex} The end point.
      */
     function getEndPoint(vertex) {
-        if (vertex instanceof Vertex$1)
-            return new Vertex$1(vertex.x, vertex.y);
+        if (vertex instanceof Vertex)
+            return new Vertex(vertex.x, vertex.y);
         else
-            return new Vertex$1(vertex.x4, vertex.y4);
+            return new Vertex(vertex.x4, vertex.y4);
     }
 
     /**
@@ -121,6 +144,34 @@
     }
 
     /**
+     * Generates a cubic Bezier representing an arc.
+     * @param {!number} start The angle to start the arc, in radians.
+     * @param {!number} size Total angle 'size', in radians.
+     * @returns {BezierCurve} The result curve.
+     */
+    function arcToBezier(start, size) {
+        const alpha = size / 2.0;
+        const cosAlpha = Math.cos(alpha);
+        const sinAlpha = Math.sin(alpha);
+        const cotAlpha = 1.0 / Math.tan(alpha);
+        const phi = start + alpha;
+        const cosPhi = Math.cos(phi);
+        const sinPhi = Math.sin(phi);
+        const lambda = (4.0 - cosAlpha) / 3.0;
+        const mu = sinAlpha + (cosAlpha - lambda) * cotAlpha;
+
+        return new BezierCurve(
+            Math.cos(start).toFixed(7),
+            Math.sin(start).toFixed(7),
+            (lambda * cosPhi + mu * sinPhi).toFixed(7),
+            (lambda * sinPhi - mu * cosPhi).toFixed(7),
+            (lambda * cosPhi - mu * sinPhi).toFixed(7),
+            (lambda * sinPhi + mu * cosPhi).toFixed(7),
+            Math.cos(start + size).toFixed(7),
+            Math.sin(start + size).toFixed(7));
+    }
+
+    /**
      * @fileoverview The Shape class which supports partial rendering.
      */
 
@@ -136,7 +187,7 @@
         constructor(p5obj, vertices, startFrame, duration) {
             if (vertices.length <= 0)
                 throw new Error('The vertex array must not be empty.');
-            if (!(vertices[0] instanceof Vertex$1))
+            if (!(vertices[0] instanceof Vertex))
                 throw new Error('The start vertex must not be a Bezier vertex.');
             this.p5obj = p5obj;
             this.vertices = vertices;
@@ -163,7 +214,7 @@
             // Draws all the full curves.
             for (let i = 0; i < currentCurveNo; i++) {
                 const v = this.vertices[i + 1];
-                if (v instanceof Vertex$1)
+                if (v instanceof Vertex)
                     this.p5obj.vertex(v.x, v.y);
                 else
                     this.p5obj.bezierVertex(v.x2, v.y2, v.x3, v.y3, v.x4, v.y4);
@@ -172,7 +223,7 @@
             // Draws the partial curve.
             if (currentCurveNo < numCurves) {
                 const v = this.vertices[currentCurveNo + 1];
-                if (v instanceof Vertex$1) {
+                if (v instanceof Vertex) {
                     const x1 = lastPoint.x + (v.x - lastPoint.x) * currentCurveProgress;
                     const y1 = lastPoint.y + (v.y - lastPoint.y) * currentCurveProgress;
                     this.p5obj.vertex(x1, y1);
@@ -183,7 +234,7 @@
                 }
             }
             if (progress >= 1 && this.vertices.length > 1 &&
-                this.vertices[this.vertices.length - 1] instanceof Vertex$1 &&
+                this.vertices[this.vertices.length - 1] instanceof Vertex &&
                 this.vertices[0].x == this.vertices[this.vertices.length - 1].x &&
                 this.vertices[0].y == this.vertices[this.vertices.length - 1].y) {
                 this.p5obj.endShape(CLOSE);
@@ -220,7 +271,7 @@
          *     number of frames, for creating the new instance.
          * @private
          */
-        getOrCreateShapeInstance(id, getShapeVertices, duration) {
+        getOrCreateShapeInstance_(id, getShapeVertices, duration) {
             if (this.instances.has(id)) {
                 return this.instances.get(id);
             }
@@ -265,7 +316,7 @@
                 const curves = [];
                 while (stop - start >= epsilon) {
                     arcToDraw = Math.min(stop - start, Math.PI / 2);
-                    curves.push(Shape.arcToBezier(start, arcToDraw));
+                    curves.push(arcToBezier(start, arcToDraw));
                     start += arcToDraw;
                 }
                 const shapeVertices = [];
@@ -280,7 +331,7 @@
                 return shapeVertices;
             };
 
-            const instance = this.getOrCreateShapeInstance(id, createShapeVertices, duration);
+            const instance = this.getOrCreateShapeInstance_(id, createShapeVertices, duration);
             instance.update();
         }
 
@@ -296,7 +347,7 @@
          * @param {!number} h The height of the ellipse.
          */
         ellipse(id, duration, x, y, w, h) {
-            const instance = this.getOrCreateShapeInstance(id, () => {
+            const instance = this.getOrCreateShapeInstance_(id, () => {
                 x = x - w * 0.5;
                 y = y - h * 0.5;
                 w = Math.abs(w);
@@ -341,7 +392,7 @@
          * @param {!number} y2 The y-coordinate of the second point.
          */
         line(id, duration, x1, y1, x2, y2) {
-            const instance = this.getOrCreateShapeInstance(id, () => {
+            const instance = this.getOrCreateShapeInstance_(id, () => {
                 return [new Vertex(x1, y1), new Vertex(x2, y2)];
             }, duration);
             instance.update();
@@ -362,7 +413,7 @@
          * @param {!number} y4 The y-coordinate of the fourth point.
          */
         quad(id, duration, x1, y1, x2, y2, x3, y3, x4, y4) {
-            const instance = this.getOrCreateShapeInstance(id, () => {
+            const instance = this.getOrCreateShapeInstance_(id, () => {
                 return [new Vertex(x1, y1), new Vertex(x2, y2),
                 new Vertex(x3, y3), new Vertex(x4, y4),
                 new Vertex(x1, y1)];
@@ -413,7 +464,7 @@
          * @param {!number} y3 The y-coordinate of the third point.
          */
         triangle(id, duration, x1, y1, x2, y2, x3, y3) {
-            const instance = this.getOrCreateShapeInstance(id, () => {
+            const instance = this.getOrCreateShapeInstance_(id, () => {
                 return [new Vertex(x1, y1), new Vertex(x2, y2),
                 new Vertex(x3, y3), new Vertex(x1, y1)];
             }, duration);
@@ -432,7 +483,7 @@
          *     vertices).
          */
         shape(id, duration, vertices) {
-            const instance = this.getOrCreateShapeInstance(id, () => {
+            const instance = this.getOrCreateShapeInstance_(id, () => {
                 const shapeVertices = [];
                 for (const v of vertices) {
                     if (v.length == 2) {
@@ -455,21 +506,183 @@
      */
 
     /**
-     * The adapter class to expose animS functions.
+     * The default instance to access the animS functions.
      */
-    class AnimShapesAdapter {
-        constructor(p5obj) {
-            this.animShapes = new AnimShapes(p5obj);
-        }
+    const defaultAnimS = new AnimShapes();
+
+    /**
+     * Activates the "instance mode" and associates a new animS instance with the
+     *     specified p5 object. See p5() of p5.js for more details.
+     * @param {Object} p5obj The instance of the p5 object.
+     * @returns {Object} The animS instance.
+     */
+    function newAnimS(p5obj) {
+        return new AnimShapes(p5obj);
     }
 
     /**
-     * Activates the "instance mode" and associates the animS functions with the
-     *     specified p5 object. See p5() of p5.js for more details.
+     * 'Global' adapter of AnimShapes.arc
+     *
+     * Draws an arc while playing its creation animation. The arc mode is always
+     *     OPEN. The elipse mode is always CENTER.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!Number} x The x-coordinate of the arc's ellipse.
+     * @param {!Number} y The y-coordinate of the arc's ellipse.
+     * @param {!Number} w The width of the arc's ellipse by default.
+     * @param {!Number} h The height of the arc's ellipse by default.
+     * @param {!Number} start The angle to start the arc, in radians.
+     * @param {!Number} stop The angle to stop the arc, in radians.
      */
-    const createAnimS = (p5obj) => new AnimShapesAdapter(p5obj);
+    function arc(id, duration, x, y, w, h, start, stop) {
+        defaultAnimS.arc(id, duration, x, y, w, h, start, stop);
+    }
 
-    exports.createAnimS = createAnimS;
+    /**
+     * 'Global' adapter of AnimShapes.ellipse
+     *
+     * Draws an elipse (oval) while playing its creation animation. The elipse
+     *     mode is always CENTER.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!number} x The x-coordinate of the center of ellipse.
+     * @param {!number} y The y-coordinate of the center of ellipse.
+     * @param {!number} w The width of the ellipse.
+     * @param {!number} h The height of the ellipse.
+     */
+    function ellipse(id, duration, x, y, w, h) {
+        defaultAnimS.ellipse(id, duration, x, y, w, h);
+    }
+
+     /**
+      * 'Global' adapter of AnimShapes.circle
+      *
+      * Draws a circle while playing its creation animation.
+      * @param {!string} id A unique string ID to identify the shape animation.
+      * @param {!number} duration The duration of the creation animation, in
+      *     number of frames.
+      * @param {!number} x The x-coordinate of the centre of the circle.
+      * @param {!number} y The y-coordinate of the centre of the circle.
+      * @param {!number} d The diameter of the circle.
+      */
+    function circle(id, duration, x, y, d) {
+        defaultAnimS.circle(id, duration, x, y, d);
+    }
+
+    /**
+     * 'Global' adapter of AnimShapes.line
+     *
+     * Draws a line while playing its creation animation.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!number} x1 The x-coordinate of the first point.
+     * @param {!number} y1 The y-coordinate of the first point.
+     * @param {!number} x2 The x-coordinate of the second point.
+     * @param {!number} y2 The y-coordinate of the second point.
+     */
+    function line(id, duration, x1, y1, x2, y2) {
+        defaultAnimS.line(id, duration, x1, y1, x2, y2);
+    }
+
+    /**
+     * 'Global' adapter of AnimShapes.quad
+     *
+     * Draws a quad while playing its creation animation.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!number} x1 The x-coordinate of the first point.
+     * @param {!number} y1 The y-coordinate of the first point.
+     * @param {!number} x2 The x-coordinate of the second point.
+     * @param {!number} y2 The y-coordinate of the second point.
+     * @param {!number} x3 The x-coordinate of the third point.
+     * @param {!number} y3 The y-coordinate of the third point.
+     * @param {!number} x4 The x-coordinate of the fourth point.
+     * @param {!number} y4 The y-coordinate of the fourth point.
+     */
+    function quad(id, duration, x1, y1, x2, y2, x3, y3, x4, y4) {
+        defaultAnimS.quad(id, duration, x1, y1, x2, y2, x3, y3, x4, y4);
+    }
+
+    /**
+     * 'Global' adapter of AnimShapes.rect
+     *
+     * Draws a rectangle while playing its creation animation.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!number} x The x-coordinate of the rectangle.
+     * @param {!number} y The y-coordinate of the rectangle.
+     * @param {!number} w The width of the rectangle.
+     * @param {!number} h The height of the rectangle.
+     */
+    function rect(id, duration, x, y, w, h) {
+        defaultAnimS.rect(id, duration, x, y, w, h);
+    }
+
+    /**
+     * 'Global' adapter of AnimShapes.square
+     *
+     * Draws a square while playing its creation animation.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!number} x The x-coordinate of the square.
+     * @param {!number} y The y-coordinate of the square.
+     * @param {!number} s The side size of the square.
+     */
+    function square(id, duration, x, y, s) {
+        defaultAnimS.square(id, duration, x, y, s);
+    }
+
+    /**
+     * 'Global' adapter of AnimShapes.triangle
+     *
+     * Draws a triangle while playing its creation animation.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!number} x1 The x-coordinate of the first point.
+     * @param {!number} y1 The y-coordinate of the first point.
+     * @param {!number} x2 The x-coordinate of the second point.
+     * @param {!number} y2 The y-coordinate of the second point.
+     * @param {!number} x3 The x-coordinate of the third point.
+     * @param {!number} y3 The y-coordinate of the third point.
+     */
+    function triangle(id, duration, x1, y1, x2, y2, x3, y3) {
+        defaultAnimS.triangle(id, duration, x1, y1, x2, y2, x3, y3);
+    }
+
+    /**
+     * 'Global' adapter of AnimShapes.shape
+     *
+     * Draws a shape while playing its creation animation. The shape is always
+     *     OPEN unless the first vertex and the last vertex are equal.
+     * @param {!string} id A unique string ID to identify the shape animation.
+     * @param {!number} duration The duration of the creation animation, in
+     *     number of frames.
+     * @param {!Array<Array<number>>} vertices The vertices that define the
+     *     shape. Each element of the array may contain eithr two coordinate
+     *     numbers (for simple vertices) or six coordinate numbers (for Bezier
+     *     vertices).
+     */
+    function shape(id, duration, vertices) {
+        defaultAnimS.shape(id, duration, vertices);
+    }
+
+    exports.arc = arc;
+    exports.circle = circle;
+    exports.ellipse = ellipse;
+    exports.line = line;
+    exports.newAnimS = newAnimS;
+    exports.quad = quad;
+    exports.rect = rect;
+    exports.shape = shape;
+    exports.square = square;
+    exports.triangle = triangle;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
