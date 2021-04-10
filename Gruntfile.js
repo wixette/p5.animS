@@ -15,7 +15,7 @@ module.exports = function(grunt) {
           dest: 'build/p5.anims.js',
           src: 'src/main.js'
         },
-      },
+      }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
