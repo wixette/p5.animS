@@ -255,8 +255,16 @@
          */
         constructor(p5obj = window) {
             this.p5obj = p5obj;
-            /** @type {Map<string, Shape>} */
-            this.instances = new Map();
+            /**
+             * @type {Map<string, Shape>}
+             * @private
+             */
+            this.instances_ = new Map();
+            /**
+             * @type {Set<string>}
+             * @private
+             */
+            this.dedup_ = new Set();
         }
 
         /**
@@ -272,13 +280,32 @@
          * @private
          */
         getOrCreateShapeInstance_(id, getShapeVertices, duration) {
-            if (this.instances.has(id)) {
-                return this.instances.get(id);
+            if (this.checkDuplicateId_(id)) {
+                throw new Error('AnimS id must not be duplicate in the same p5.js frame.');
+            }
+            if (this.instances_.has(id)) {
+                return this.instances_.get(id);
             }
             else {
                 const instance = new Shape(this.p5obj, getShapeVertices(), this.p5obj.frameCount, duration);
-                this.instances.set(id, instance);
+                this.instances_.set(id, instance);
                 return instance;
+            }
+        }
+
+        /**
+         * Checks if the id is duplicate for the current frame. Duplicate IDs may
+         *     occur in different frames, but not in the same frame.
+         * @param {string} id
+         * @private
+         */
+        checkDuplicateId_(id) {
+            let key = id + '@' + frameCount;
+            if (this.dedup_.has(key)) {
+                return true;
+            } else {
+                this.dedup_.add(key);
+                return false;
             }
         }
 
