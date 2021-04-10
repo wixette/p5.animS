@@ -1,6 +1,6 @@
 {
   "name": "p5.anims",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "p5.animS animates p5.js shapes by rendering their drawing processes.",
   "main": "build/p5.anims.js",
   "files": [
