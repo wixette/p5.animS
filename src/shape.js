@@ -66,7 +66,7 @@ export class Shape {
             this.vertices[this.vertices.length - 1] instanceof Vertex &&
             this.vertices[0].x == this.vertices[this.vertices.length - 1].x &&
             this.vertices[0].y == this.vertices[this.vertices.length - 1].y) {
-            this.p5obj.endShape(CLOSE);
+            this.p5obj.endShape(this.p5obj.CLOSE);
         } else {
             this.p5obj.endShape();
         }
