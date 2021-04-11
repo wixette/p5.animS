@@ -39,15 +39,15 @@ function draw() {
         animS.triangle('arrowy', FRAME_RATE * .5, 480, 20, 477, 30, 483, 30);
     }
     if (frameCount >= FRAME_RATE * 3) {
-        stroke(160, 60, 60);
         strokeWeight(1);
+        stroke(160, 60, 90);
+        line(X1, Y1, X2, Y2);
+        line(X3, Y3, X4, Y4);
+        stroke(160, 60, 60);
         beginShape();
         vertex(X1, Y1);
         bezierVertex(X2, Y2, X3, Y3, X4, Y4);
         endShape();
-        stroke(160, 60, 90);
-        line(X1, Y1, X2, Y2);
-        line(X3, Y3, X4, Y4);
         fill(160, 30, 90);
         circle(X1, Y1, 8);
         circle(X2, Y2, 8);
@@ -68,13 +68,13 @@ function draw() {
         noStroke();
         fill(30, 60, 100);
         let delta = frameCount - FRAME_RATE * 3;
+        delta -= delta % 5;
         let ratio = (delta > FRAME_RATE * 3) ? 1.0 : delta / (FRAME_RATE * 3);
-        ratio = Math.floor(ratio * 100) / 100;
-        text('t = ' + ratio, 320, 100);
+        text('t = ' + ratio.toFixed(2), 320, 100);
         pop();
     }
 
-    if (frameCount == FRAME_RATE * 8) {
+    if (frameCount == FRAME_RATE * 10) {
         animS.reset();
         frameCount = 0;
     }
