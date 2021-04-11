@@ -1,9 +1,9 @@
 const FRAME_RATE = 30;
 
 const X1 = 260, Y1 = 150;
-const X2 = 660, Y2 = 205;
+const X2 = 660, Y2 = 210;
 const X3 = 300, Y3 = 50;
-const X4 = 700, Y4 = 50;
+const X4 = 690, Y4 = 50;
 
 function setup() {
     createCanvas(960, 240);
@@ -71,6 +71,23 @@ function draw() {
         delta -= delta % 5;
         let ratio = (delta > FRAME_RATE * 3) ? 1.0 : delta / (FRAME_RATE * 3);
         text('t = ' + ratio.toFixed(2), 320, 100);
+        pop();
+    }
+
+    if (frameCount >= FRAME_RATE * 6) {
+        push();
+        noFill();
+        stroke(0, 0, 100);
+        strokeWeight(4);
+        animS.shape('head', FRAME_RATE * 1.5,
+            [[780, 110], [780, 70], [780, 30, 890, 30, 890, 70], [890, 70], [890, 110]]);
+        animS.quad('body', FRAME_RATE * 1.5, 770, 125, 900, 125, 850, 170, 820, 170);
+        animS.circle('eye1', FRAME_RATE * 1.5, 810, 75, 15);
+        animS.circle('eye2', FRAME_RATE * 1.5, 860, 75, 15);
+        animS.arc('mouth', FRAME_RATE * 1.5, 830, 90, 60, 30, PI / 5, PI * 3 / 5);
+        translate(0, random(-3, 3));
+        animS.circle('foot1', FRAME_RATE * 1.5, 775, 170, 30);
+        animS.circle('foot2', FRAME_RATE * 1.5, 895, 170, 30);
         pop();
     }
 
