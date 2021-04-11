@@ -20,6 +20,16 @@ export function newAnimS(p5obj) {
 }
 
 /**
+ * 'Global' adapter of AnimShapes.reset
+ *
+ * Removes all the cached shape animation instances so that new shape
+ *     creations result in new animations.
+ */
+export function reset() {
+    defaultAnimS.reset();
+}
+
+/**
  * 'Global' adapter of AnimShapes.arc
  *
  * Draws an arc while playing its creation animation. The arc mode is always

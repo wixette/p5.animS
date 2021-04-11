@@ -67,6 +67,15 @@ export class AnimShapes {
     }
 
     /**
+     * Removes all the cached shape animation instances so that new shape
+     *     creations result in new animations.
+     */
+    reset() {
+        this.instances_.clear();
+        this.dedup_.clear();
+    }
+
+    /**
      * Draws an arc while playing its creation animation. The arc mode is always
      *     OPEN. The elipse mode is always CENTER.
      * @param {!string} id A unique string ID to identify the shape animation.
