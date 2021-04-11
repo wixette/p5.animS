@@ -1,5 +1,64 @@
-body, div, img, main {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Roboto&display=swap');
+
+body, div, img, main, container, header, footer {
     border: 0;
+    color: #666666;
+    font-family: 'Montserrat', 'Roboto', Verdana, Helvetica, sans-serif;
+    line-height: 2em;
     margin: 0;
     padding: 0;
+}
+
+p {
+    font-size: 14pt;
+    line-height: 2em;
+}
+
+a, a:hover, a:link, a:visited, a:active {
+    color: #3399ff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff9933;
+}
+
+h1 {
+    color: #3399ff;
+    font-size: 32pt;
+    line-height: 4em;
+}
+
+h2 {
+    color: #3399ff;
+    font-size: 18pt;
+}
+
+container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 0 auto;
+    width: 960px;
+}
+
+header, section, footer {
+    overflow: hidden;
+    padding: 1em 0 1em 0;
+    width: 960px;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+footer > div {
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+main {
+    height: 240px;
+    width: 960px;
 }
