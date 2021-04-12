@@ -65,17 +65,17 @@ export function ellipse(id, duration, x, y, w, h) {
     defaultAnimS.ellipse(id, duration, x, y, w, h);
 }
 
- /**
-  * 'Global' adapter of AnimShapes.circle
-  *
-  * Draws a circle while playing its creation animation.
-  * @param {!string} id A unique string ID to identify the shape animation.
-  * @param {!number} duration The duration of the creation animation, in
-  *     number of frames.
-  * @param {!number} x The x-coordinate of the centre of the circle.
-  * @param {!number} y The y-coordinate of the centre of the circle.
-  * @param {!number} d The diameter of the circle.
-  */
+/**
+ * 'Global' adapter of AnimShapes.circle
+ *
+ * Draws a circle while playing its creation animation.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x The x-coordinate of the centre of the circle.
+ * @param {!number} y The y-coordinate of the centre of the circle.
+ * @param {!number} d The diameter of the circle.
+ */
 export function circle(id, duration, x, y, d) {
     defaultAnimS.circle(id, duration, x, y, d);
 }

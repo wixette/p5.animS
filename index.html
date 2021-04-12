@@ -83,12 +83,6 @@ npm run build</code></pre>
       </p>
       <iframe src="examples/filled_shapes.html" scrolling="no"></iframe>
 
-      <p>The <a href="https://github.com/wixette/p5.animS/blob/main/examples/one_by_one.sketch.js">sketch</a>
-        to draw circles one by one:
-        <code class="language-bash">Click the canvas to replay</code>
-      </p>
-      <iframe src="examples/one_by_one.html" scrolling="no"></iframe>
-
       <p>The <a href="https://github.com/wixette/p5.animS/blob/main/examples/multi_instance.sketch.js">sketch</a>
         to render p5.animS animations in multiple canvases, together with the
         <code class="language-bash">instance mode</code> of p5.js:</p>
@@ -98,7 +92,138 @@ npm run build</code></pre>
     <section>
       <a name="reference"></a>
       <h2>Quick Reference</h2>
-      <p>Coming soon...</p>
+      <pre><code class="language-js">
+/**
+ * Activates the "instance mode" and associates a new animS instance with the
+ *     specified p5 object. See p5() of p5.js for more details.
+ * @param {Object} p5obj The instance of the p5 object.
+ * @returns {Object} The animS instance.
+ */
+animS.newAnimS(p5obj);
+
+/**
+ * Removes all the cached shape animation instances so that new shape
+ *     creations result in new animations.
+ */
+animS.reset();
+
+/**
+ * Draws an arc while playing its creation animation. The arc mode is always
+ *     OPEN. The elipse mode is always CENTER.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!Number} x The x-coordinate of the arc's ellipse.
+ * @param {!Number} y The y-coordinate of the arc's ellipse.
+ * @param {!Number} w The width of the arc's ellipse by default.
+ * @param {!Number} h The height of the arc's ellipse by default.
+ * @param {!Number} start The angle to start the arc, in radians.
+ * @param {!Number} stop The angle to stop the arc, in radians.
+ */
+animS.arc(id, duration, x, y, w, h, start, stop);
+
+/**
+ * Draws an elipse (oval) while playing its creation animation. The elipse
+ *     mode is always CENTER.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x The x-coordinate of the center of ellipse.
+ * @param {!number} y The y-coordinate of the center of ellipse.
+ * @param {!number} w The width of the ellipse.
+ * @param {!number} h The height of the ellipse.
+ */
+animS.ellipse(id, duration, x, y, w, h);
+
+/**
+ * Draws a circle while playing its creation animation.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x The x-coordinate of the centre of the circle.
+ * @param {!number} y The y-coordinate of the centre of the circle.
+ * @param {!number} d The diameter of the circle.
+*/
+animS.circle(id, duration, x, y, d);
+
+/**
+ * Draws a line while playing its creation animation.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x1 The x-coordinate of the first point.
+ * @param {!number} y1 The y-coordinate of the first point.
+ * @param {!number} x2 The x-coordinate of the second point.
+ * @param {!number} y2 The y-coordinate of the second point.
+ */
+animS.line(id, duration, x1, y1, x2, y2);
+
+/**
+ * Draws a quad while playing its creation animation.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x1 The x-coordinate of the first point.
+ * @param {!number} y1 The y-coordinate of the first point.
+ * @param {!number} x2 The x-coordinate of the second point.
+ * @param {!number} y2 The y-coordinate of the second point.
+ * @param {!number} x3 The x-coordinate of the third point.
+ * @param {!number} y3 The y-coordinate of the third point.
+ * @param {!number} x4 The x-coordinate of the fourth point.
+ * @param {!number} y4 The y-coordinate of the fourth point.
+ */
+animS.quad(id, duration, x1, y1, x2, y2, x3, y3, x4, y4);
+
+/**
+ * Draws a rectangle while playing its creation animation.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x The x-coordinate of the rectangle.
+ * @param {!number} y The y-coordinate of the rectangle.
+ * @param {!number} w The width of the rectangle.
+ * @param {!number} h The height of the rectangle.
+ */
+animS.rect(id, duration, x, y, w, h);
+
+/**
+ * Draws a square while playing its creation animation.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x The x-coordinate of the square.
+ * @param {!number} y The y-coordinate of the square.
+ * @param {!number} s The side size of the square.
+ */
+animS.square(id, duration, x, y, s);
+
+/**
+ * Draws a triangle while playing its creation animation.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!number} x1 The x-coordinate of the first point.
+ * @param {!number} y1 The y-coordinate of the first point.
+ * @param {!number} x2 The x-coordinate of the second point.
+ * @param {!number} y2 The y-coordinate of the second point.
+ * @param {!number} x3 The x-coordinate of the third point.
+ * @param {!number} y3 The y-coordinate of the third point.
+ */
+animS.triangle(id, duration, x1, y1, x2, y2, x3, y3);
+
+/**
+ * Draws a shape while playing its creation animation. The shape is always
+ *     OPEN unless the first vertex and the last vertex are equal.
+ * @param {!string} id A unique string ID to identify the shape animation.
+ * @param {!number} duration The duration of the creation animation, in
+ *     number of frames.
+ * @param {!Array&lt;Array&lt;number&gt;&gt;} vertices The vertices that define the
+ *     shape. Each element of the array may contain eithr two coordinate
+ *     numbers (for simple vertices) or six coordinate numbers (for Bezier
+ *     vertices).
+ */
+animS.shape(id, duration, vertices);
+      </code></pre>
     </section>
 
     <section>
