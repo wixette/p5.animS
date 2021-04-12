@@ -1,6 +1,6 @@
 {
   "name": "p5.anims",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "p5.animS animates p5.js shapes by rendering their drawing processes.",
   "main": "build/p5.anims.js",
   "files": [
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/wixette/p5.animS/issues"
   },
-  "homepage": "https://github.com/wixette/p5.animS",
+  "homepage": "https://wixette.github.io/p5.animS/",
   "devDependencies": {
     "almost-equal": "^1.1.0",
     "ava": "^3.15.0",
