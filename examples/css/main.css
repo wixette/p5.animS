@@ -59,13 +59,13 @@ header, section, footer {
     width: 960px;
 }
 
-footer {
+nav {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-footer > div {
+nav > div {
     padding-left: 3em;
     padding-right: 3em;
 }
@@ -73,4 +73,8 @@ footer > div {
 main {
     height: 240px;
     width: 960px;
+}
+
+footer {
+    margin-top: 2em;
 }
