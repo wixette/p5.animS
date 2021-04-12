@@ -1,7 +1,7 @@
 const FRAME_RATE = 30;
 
 function setup() {
-    createCanvas(900, 350);
+    createCanvas(900, 240);
     frameRate(FRAME_RATE);
 }
 

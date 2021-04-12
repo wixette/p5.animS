@@ -46,21 +46,31 @@ npm run build</code></pre>
     &lt;script src="sketch.js"&gt;&lt;/script&gt;
 &lt;/body&gt;</code></pre>
       <p>p5.animS functions have very similar interfaces as p5.js functions do.
-      For example, <code class="language-js">animS.circle()</code> renders the
-      creation animation of a circle:</p>
+        For example, <code class="language-js">animS.circle()</code> renders the
+        creation animation of a circle:</p>
       <pre data-src="examples/get_started.sketch.js" data-type="text/javascript" class="language-js"></pre>
       <p>The first parameter of <code class="language-js">animS.circle()</code> is a unique
-      instance ID so that the animation state can be kept across frames. The second
-      parameter is the total frame number that the animation last.</p>
+        instance ID so that the animation state can be kept across frames. The second
+        parameter is the total frame number that the animation last.</p>
+      <p><code class="language-js">animS.reset()</code> is used to replay the creation animation.</p>
       <p>Here is the sketch rendered by the above code
         <code class="language-bash">Click the canvas to replay</code>:
       </p>
       <iframe src="examples/get_started.html" scrolling="no"></iframe>
+      <p>The frame rate of p5.js can be used to set the duration of animations. For example,
+        you can set the frame rate to <code class="language-js">FRAME_RATE</code>
+        then use <code class="language-js">FRAME_RATE * 3</code> to create a three-second animation.
+      </p>
+      <pre data-src="examples/frame_rate.sketch.js" data-type="text/javascript" class="language-js"></pre>
+      <p>The line is displayed in three seconds
+        <code class="language-bash">Click the canvas to replay</code>:
+      </p>
+      <iframe src="examples/frame_rate.html" scrolling="no"></iframe>
     </section>
 
     <section>
       <a name="examples"></a>
-      <h2>Examples</h2>
+      <h2>More Examples</h2>
       <p>Coming soon...</p>
     </section>
 
