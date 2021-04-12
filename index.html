@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>p5.animS - animates p5.js shapes</title>
+  <link rel="shortcut icon" type="image/png" href="/examples/images/favicon.png"/>
   <link rel="stylesheet" href="examples/css/prism.css">
   <link rel="stylesheet" href="examples/css/main.css">
 </head>
@@ -15,7 +16,8 @@
       <h1>p5.animS</h1>
       <main id="demo-sketch"></main>
       <p>
-        p5.animS is a library that animates <a href="https://p5js.org/">p5.js</a> shapes by rendering their drawing processes.
+        p5.animS is a library that animates <a href="https://p5js.org/">p5.js</a>
+        shapes by rendering their drawing processes.
       </p>
     </header>
 
@@ -26,7 +28,14 @@
       <p>Or, clone the source code and rebuild <code class="language-bash">p5.anims.js</code>:</p>
       <pre><code class="language-bash">npm install
 npm run build</code></pre>
-      <p>In your HTML code, put <code class="language-bash">p5.anims.js</code> right after <code class="language-bash">p5.js</code> or <code class="language-bash">p5.min.js</code>:</p>
+      <p>In your HTML code, put <code class="language-bash">p5.anims.js</code>
+        right after <code class="language-bash">p5.js</code> or
+        <code class="language-bash">p5.min.js</code>, followed by your sketch code:</p>
+      <pre data-src="examples/get_started.html" data-type="text/html" class="language-markup"></pre>
+      <p>In your sketch code, use <code class="language-js">animS.circle()</code> to render the creation animation of a circle:</p>
+      <pre data-src="examples/get_started.sketch.js" data-type="text/javascript" class="language-js"></pre>
+      <p>Here is the live sketch. Click or touch the canvas to replay the animation:</p>
+      <iframe src="examples/get_started.html" scrolling="no"></iframe>
     </section>
 
     <section>

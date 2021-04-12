@@ -9,8 +9,16 @@ body, div, img, main, container, header, footer {
     padding: 0;
 }
 
-code[class*="language-"] {
+code[class*="language-"],
+pre[class*="language-"] {
     font-size: 90%;
+}
+
+iframe {
+    border: 0;
+    height: 240px;
+    overflow: hidden;
+    width: 960px;
 }
 
 p {
