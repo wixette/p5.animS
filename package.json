@@ -1,12 +1,13 @@
 {
   "name": "p5.anims",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "p5.animS animates p5.js shapes by rendering their drawing processes.",
   "main": "build/p5.anims.js",
   "files": [
     "README.md",
     "LICENSE",
-    "build/p5.anims.js"
+    "build/p5.anims.js",
+    "build/p5.anims.min.js"
   ],
   "scripts": {
     "grunt": "grunt",
@@ -30,6 +31,7 @@
     "esm": "^3.2.25",
     "grunt": "^1.3.0",
     "grunt-contrib-jshint": "^3.0.0",
+    "grunt-contrib-uglify": "^5.0.1",
     "grunt-rollup": "^11.5.0",
     "http-server": "^0.12.3"
   },
