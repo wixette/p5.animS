@@ -9,6 +9,10 @@ body, div, img, main, container, header, footer {
     padding: 0;
 }
 
+code[class*="language-"] {
+    font-size: 90%;
+}
+
 p {
     font-size: 14pt;
     line-height: 2em;

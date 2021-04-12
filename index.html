@@ -6,7 +6,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>p5.animS - animates p5.js shapes</title>
-  <link rel="stylesheet" href="examples/style.css">
+  <link rel="stylesheet" href="examples/css/prism.css">
+  <link rel="stylesheet" href="examples/css/main.css">
 </head>
 <body>
   <container>
@@ -20,7 +21,12 @@
 
     <section>
       <h2>Get Started</h2>
-      <p>Coming soon...</p>
+      <p>Download the JavaScript bundle file <code class="language-bash">p5.anims.js</code>
+        from <code><a href="https://github.com/wixette/p5.animS/tree/main/build">the build dir</a></code>.</p>
+      <p>Or, clone the source code and rebuild <code class="language-bash">p5.anims.js</code>:</p>
+      <pre><code class="language-bash">npm install
+npm run build</code></pre>
+      <p>In your HTML code, put <code class="language-bash">p5.anims.js</code> right after <code class="language-bash">p5.js</code> or <code class="language-bash">p5.min.js</code>:</p>
     </section>
 
     <section>
@@ -33,7 +39,8 @@
       <div><a href="https://github.com/wixette">Author</a></div>
     </footer>
   </container>
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script>
+  <script src="examples/libs/prism.js"></script>
+  <script src="examples/libs/p5.min.js"></script>
   <script src="build/p5.anims.js"></script>
   <script src="examples/demo.sketch.js"></script>
 </body>
