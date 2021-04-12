@@ -1,101 +1,99 @@
 const FRAME_RATE = 30;
+const DURATION = FRAME_RATE * 1.5;
 
 function setup() {
-    createCanvas(900, 240);
+    createCanvas(960, 240);
+    colorMode(HSB, 360, 100, 100, 1);
     frameRate(FRAME_RATE);
 }
 
 function draw() {
-    const C1 = color(255, 240, 128);
-    const C2 = color(255, 128, 0);
-    const duration = FRAME_RATE * 1.5;
-
-    background(255);
+    background(190, 30, 100);
     noFill();
-    strokeWeight(5);
 
-    push();
+    const C1 = color(190, 60, 100);
+    const C2 = color(0, 0, 100);
+    const W1 = 2;
+    const W2 = 5;
+
     stroke(C1);
-    arc(100, 100, 100, 100,
-        Math.PI / 3, Math.PI * 4 / 3);
+    strokeWeight(W1);
+    arc(100, 80, 80, 80, PI / 3, PI * 4 / 3);
     stroke(C2);
-    animS.arc('a1', duration,
-        100, 100, 100, 100,
-        Math.PI / 3, Math.PI * 4 / 3);
-    pop();
+    strokeWeight(W2);
+    animS.arc('a1', DURATION,
+        100, 80, 80, 80, PI / 3, PI * 4 / 3);
 
-    push();
     stroke(C1);
-    ellipse(200, 100, 90, 70);
+    strokeWeight(W1);
+    ellipse(200, 80, 80, 60);
     stroke(C2);
-    animS.ellipse('e1', duration, 200, 100, 90, 70);
-    pop();
+    strokeWeight(W2);
+    animS.ellipse('e1', DURATION, 200, 80, 80, 60);
 
-    push();
     stroke(C1);
-    circle(300, 100, 90);
+    strokeWeight(W1);
+    circle(300, 80, 80);
     stroke(C2);
-    animS.circle('c1', duration, 300, 100, 90);
-    pop();
+    strokeWeight(W2);
+    animS.circle('c1', DURATION, 300, 80, 80);
 
-    push();
     stroke(C1);
-    line(360, 150, 440, 50);
+    strokeWeight(W1);
+    line(360, 120, 440, 40);
     stroke(C2);
-    animS.line('l1', duration, 360, 150, 440, 50);
-    pop();
+    strokeWeight(W2);
+    animS.line('l1', DURATION, 360, 120, 440, 40);
 
-    push();
     stroke(C1);
-    quad(460, 50, 480, 150, 500, 70, 540, 50);
+    strokeWeight(W1);
+    quad(460, 40, 480, 120, 500, 80, 540, 40);
     stroke(C2);
-    animS.quad('q1', duration, 460, 50, 480, 150, 500, 70, 540, 50);
-    pop();
+    strokeWeight(W2);
+    animS.quad('q1', DURATION, 460, 40, 480, 120, 500, 80, 540, 40);
 
-    push();
     stroke(C1);
-    rect(560, 50, 80, 100);
+    strokeWeight(W1);
+    rect(580, 40, 50, 80);
+    strokeWeight(W2);
     stroke(C2);
-    animS.rect('r1', duration, 560, 50, 80, 100);
-    pop();
+    animS.rect('r1', DURATION, 580, 40, 50, 80);
 
-    push();
     stroke(C1);
-    square(660, 60, 80);
+    strokeWeight(W1);
+    square(660, 40, 80);
     stroke(C2);
-    animS.square('s1', duration, 660, 60, 80);
-    pop();
+    strokeWeight(W2);
+    animS.square('s1', DURATION, 660, 40, 80);
 
-    push();
     stroke(C1);
-    triangle(760, 50, 840, 100, 800, 150);
+    strokeWeight(W1);
+    triangle(780, 40, 880, 120, 800, 120);
     stroke(C2);
-    animS.triangle('t1', duration, 760, 50, 840, 100, 800, 150);
-    pop();
+    strokeWeight(W2);
+    animS.triangle('t1', DURATION, 780, 40, 880, 120, 800, 120);
 
-    if (frameCount > duration) {
-        push();
-        stroke(C1);
-        beginShape();
-        vertex(50, 250);
-        bezierVertex(100, 200, 150, 270, 200, 250);
-        bezierVertex(300, 300, 280, 200, 400, 250);
-        bezierVertex(400, 200, 490, 260, 500, 250);
-        vertex(600, 200);
-        vertex(700, 250);
-        bezierVertex(600, 280, 720, 250, 850, 250);
-        endShape();
-        stroke(C2);
 
-        animS.shape('curve1', duration, [
-            [50, 250],
-            [100, 200, 150, 270, 200, 250],
-            [300, 300, 280, 200, 400, 250],
-            [400, 200, 490, 260, 500, 250],
-            [600, 200],
-            [700, 250],
-            [600, 280, 720, 250, 850, 250]
-        ])
-        pop();
-    }
+    stroke(C1);
+    strokeWeight(W1);
+    beginShape();
+    vertex(60, 180);
+    bezierVertex(100, 100, 150, 220, 200, 180);
+    vertex(600, 180);
+    bezierVertex(400, 100, 700, 220, 800, 180);
+    vertex(900, 180);
+    endShape();
+    stroke(C2);
+    strokeWeight(W2);
+    animS.shape('curve1', DURATION, [
+        [60, 180],
+        [100, 100, 150, 220, 200, 180],
+        [600, 180],
+        [400, 100, 700, 220, 800, 180],
+        [900, 180]
+    ]);
+}
+
+function mouseClicked() {
+    animS.reset();
 }
